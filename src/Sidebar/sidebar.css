@@ -1,10 +1,12 @@
 .sidebar{
     min-height: 100vh;
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: #f0f4f9;
     padding: 25px 15px;
+    font-size: 14px;
+    color: grey;
 }
 
 .sidebar img{
@@ -19,13 +21,13 @@
 
 .sidebar .topics{
     margin-top: 50px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 10px;
     padding: 10px 15px;
     border-radius: 50px;
-    font-size: 14px;
-    color: grey;
+    font-size: inherit;
+    color: inherit;
     cursor: pointer;
 }
 
@@ -40,12 +42,32 @@
     gap: 10px;
     padding: 10px 15px;
     border-radius: 50px;
-    font-size: 14px;
-    color: grey;
+    font-size: inherit;
+    color: inherit;
     cursor: pointer;
 }
 
 .sidebar .analysis:hover{
+    background-color: #e6eaf1;
+}
+
+.sidebar .analysisOptions{
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 50px;
+    flex-direction: column;
+    background-color: #f8f9f6;
+    color: inherit;
+    cursor: pointer;
+    text-align: center;
+    font-size: inherit;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar .analysisOptions:hover{
     background-color: #e6eaf1;
 }
 
