@@ -13,7 +13,21 @@ const Help = ({ visible, onClose }) => {
                         &times;
                     </button>
                     <h1>Help/FAQ</h1>
-                    <h2>Here you can provide some helpful information or FAQs.</h2>
+                    <span> </span>
+                    <ul>
+                        <li>
+                            <p><strong>How do you access past topics?</strong></p>
+                            <p>Access topics using the "topics" button in the sidebar.</p>
+                        </li>
+                        <li>
+                            <p><strong>How do I change the settings?</strong></p>
+                            <p>Access the "settings" button in the sidebar</p>
+                        </li>
+                        <li>
+                            <p><strong>What do I enter as a prompt?</strong></p>
+                            <p>Enter a link to an article or a any topic</p>
+                        </li>
+                    </ul>
 
                 </div>
             </div>
