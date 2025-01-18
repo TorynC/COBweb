@@ -14,7 +14,6 @@ const Help = ({ visible, onClose }) => {
                     </button>
                     <h1>Help/FAQ</h1>
                     <h2>Here you can provide some helpful information or FAQs.</h2>
-
                 </div>
             </div>
         </>

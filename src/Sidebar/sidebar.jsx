@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import "./sidebar.css";
 import { assets } from "../assets/assets.jsx";
 import Help from "./help.jsx";
+import Settings from "./settings.jsx";
 
 const Sidebar = () => {
     const [extended, setExtended] = useState(false);
     const [helpVisible, setHelpVisible] = useState(false);
+    const [settingsVisible, setSettingsVisible] = useState(false);
 
     const toggleHelpPopup = () => setHelpVisible((prev) => !prev);
+    const toggleSettingsPopup = () => setSettingsVisible((prev) => !prev);
 
     return (
         <div className="sidebar">
@@ -34,12 +37,12 @@ const Sidebar = () => {
             <div className="bottom">
                 <div
                     className="bottom-item analysis"
-                    onClick={toggleHelpPopup}
-                >
+                    onClick={toggleHelpPopup}>
                     <img src={assets.question_icon} alt="" />
                     {extended ? <p>Help</p> : null}
                 </div>
-                <div className="bottom-item analysis">
+                <div className="bottom-item analysis"
+                     onClick={toggleSettingsPopup}>
                     <img src={assets.gear_icon} alt="" />
                     {extended ? <p>Settings</p> : null}
                 </div>
@@ -47,6 +50,8 @@ const Sidebar = () => {
 
             {/* Render the Help popup */}
             <Help visible={helpVisible} onClose={toggleHelpPopup} />
+            {/* Render the Settings popup */}
+            <Settings visible={settingsVisible} onClose={toggleSettingsPopup} />
         </div>
     );
 };

@@ -1,5 +1,5 @@
-/* help.css */
-.help-overlay {
+/* settings.css */
+.settings-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,25 +9,25 @@
     z-index: 1000;
 }
 
-.help-popup {
+.settings-popup {
     position: fixed; /* Fixed positioning to center it on the screen */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center it horizontally and vertically */
-    background-color: white;
+    background-color: darkgreen;
     padding: 20px;
     border-radius: 8px;
     width: 300px; /* Set a fixed width for the popup */
     z-index: 1001; /* Ensure the popup is above the overlay */
 }
 
-.help-popup-content {
+.settings-popup-content {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.help-popup-close {
+.settings-popup-close {
     align-self: flex-end;
     background: none;
     border: none;
