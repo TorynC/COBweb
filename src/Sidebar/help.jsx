@@ -27,7 +27,6 @@ const Help = ({ visible, onClose }) => {
                             <p>Enter a link to an article or a any topic</p>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </>

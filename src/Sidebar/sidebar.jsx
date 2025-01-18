@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import "./sidebar.css";
-import {assets} from "../assets/assets.jsx";
+
+import { assets } from "../assets/assets.jsx";
+import Help from "./help.jsx";
+import Settings from "./settings.jsx";
 
 const Sidebar = () => {
+    const [extended, setExtended] = useState(false);
+    const [helpVisible, setHelpVisible] = useState(false);
+    const [settingsVisible, setSettingsVisible] = useState(false);
 
-    const [extended, setExtended] = useState(false)
-    const [showAnalysis, setShowAnalysis] = useState(false);
+    const toggleHelpPopup = () => setHelpVisible((prev) => !prev);
+    const toggleSettingsPopup = () => setSettingsVisible((prev) => !prev);
+
 
     const toggleExtended = () => {
         setExtended(prev=> !prev);
@@ -42,19 +49,26 @@ const Sidebar = () => {
                             </button>
                         ))}
                     </div>
-                )}
-
-                    </div>
-                    <div className="bottom">
-                    <div className="bottom-item analysis">
-                    <img src={assets.question_icon} alt=""/>
-                        {extended?<p>Help</p>: null}
-                    </div>
-    <div className="bottom-item analysis">
-        <img src={assets.gear_icon} alt=""/>
-                        {extended?<p>Settings</p>: null}
+                ) : null}
+            </div>
+            <div className="bottom">
+                <div
+                    className="bottom-item analysis"
+                    onClick={toggleHelpPopup}>
+                    <img src={assets.question_icon} alt="" />
+                    {extended ? <p>Help</p> : null}
+                </div>
+                <div className="bottom-item analysis"
+                     onClick={toggleSettingsPopup}>
+                    <img src={assets.gear_icon} alt="" />
+                    {extended ? <p>Settings</p> : null}
                 </div>
             </div>
+
+            {/* Render the Help popup */}
+            <Help visible={helpVisible} onClose={toggleHelpPopup} />
+            {/* Render the Settings popup */}
+            <Settings visible={settingsVisible} onClose={toggleSettingsPopup} />
         </div>
     )
 }
