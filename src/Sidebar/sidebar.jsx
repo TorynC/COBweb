@@ -9,6 +9,7 @@ const Sidebar = () => {
     const [extended, setExtended] = useState(false);
     const [helpVisible, setHelpVisible] = useState(false);
     const [settingsVisible, setSettingsVisible] = useState(false);
+    const [showAnalysis, setShowAnalysis] = useState(false);
 
     const toggleHelpPopup = () => setHelpVisible((prev) => !prev);
     const toggleSettingsPopup = () => setSettingsVisible((prev) => !prev);
@@ -49,7 +50,7 @@ const Sidebar = () => {
                             </button>
                         ))}
                     </div>
-                ) : null}
+                )}
             </div>
             <div className="bottom">
                 <div
