@@ -1,11 +1,10 @@
-class Article {
-    constructor(title, link, reputability) {
-        this.title = title;
-        this.link = link;
-        this.reputability = reputability;
+class Tree {
+    constructor(article, children){
+        this.article = article;
+        this.children = children;
     }
-    toString() {
-        return "Title: " + this.title + " Link: " + this.link + " Reputability " + this.reputability
+    setChildren(children) {
+        this.children = children;
     }
 }
-export default Article
+export default Tree;
