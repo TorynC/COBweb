@@ -3,7 +3,6 @@ import "./help.css";
 
 const Help = ({ visible, onClose }) => {
     if (!visible) return null; // If not visible, return nothing
-
     return (
         <>
             <div className="help-overlay" onClick={onClose}></div>
