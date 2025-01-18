@@ -11,8 +11,15 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
+    "@xstyled/styled-components": "^4.0.0",
+    "@xyflow/react": "^12.4.1",
+    "d3": "^7.9.0",
+    "d3-force": "^3.0.0",
+    "framer-motion": "^11.18.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-flow-renderer": "^10.3.17",
+    "react-laag": "^2.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
