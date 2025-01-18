@@ -1,76 +1,34 @@
-import React, { useState } from 'react';
+import {
+    GoogleGenerativeAI,
+    HarmCategory,
+    HarmBlockThreshold,
+} from "@google/generative-ai"
 
-function GeminiLLM() {
-    const [prompt, setPrompt] = useState('');
-    const [response, setResponse] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+const apiKey = "APIKEY"
+const genAI = new GoogleGenerativeAI(apiKey);
 
-    const handleQuery = async () => {
-        if (!prompt) {
-            setError('Please enter a prompt.');
-            return;
-        }
+const model = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash-exp",
+});
 
-        setLoading(true);
-        setError(null);
-        setResponse(null);
+const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 40,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+};
 
-        try {
-            const apiKey = 'API KEY'; // Replace with your actual API key
-            const endpoint = 'https://api.generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText';
+async function runChat(prompt) {
+    const chatSession = model.startChat({
+        generationConfig,
+        history: [
+        ],
+    });
 
-            const requestBody = {
-                prompt: { text: prompt },
-                temperature: 0.7,
-                maxOutputTokens: 256,
-            };
-
-            const response = await fetch(`${endpoint}?key=${apiKey}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody),
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            setResponse(result);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div>
-            <h1>Google Gemini LLM API</h1>
-            <div>
-        <textarea
-            placeholder="Enter your prompt here"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            rows={4}
-            cols={50}
-        />
-                <br />
-                <button onClick={handleQuery}>Submit</button>
-            </div>
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-            {response && (
-                <div>
-                    <h2>Response:</h2>
-                    <pre>{JSON.stringify(response, null, 2)}</pre>
-                </div>
-            )}
-        </div>
-    );
+    const result = await chatSession.sendMessage(prompt);
+    console.log(result.response.text());
+    return result.response.text();
 }
 
-export default GeminiLLM;
+export default runChat;

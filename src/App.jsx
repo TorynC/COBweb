@@ -1,23 +1,14 @@
-import { useState } from 'react'
-import GeminiLLM from './api_calls/gemini';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import Main from "./Main/Main.jsx";
+import Sidebar from "./Sidebar/sidebar.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-      <>
-          <div>
-              <h1>Welcome to the App</h1>
-              <GeminiLLM/>
-          </div>
-          <div className="custom-text">
-              <p>Colin Northward</p>
-          </div>
-      </>
-  )
+const App = () => {
+    return (
+        <>
+            <Sidebar />
+            <Main />
+        </>
+    )
 }
 
-export default App
+export default App;
