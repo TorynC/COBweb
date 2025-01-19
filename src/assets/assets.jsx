@@ -4,6 +4,7 @@ import analysis_icon from "./analysis_icon.png";
 import gear_icon from "./gear_icon.png";
 import question_icon from "./question_icon.png";
 import send_icon from "./send_icon.png";
+import export_icon from "./export_icon.png";
 
 export const assets = {
     menu_icon,
@@ -11,5 +12,6 @@ export const assets = {
     analysis_icon,
     gear_icon,
     question_icon,
-    send_icon
+    send_icon,
+    export_icon
 }

@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
+import { saveAs } from 'file-saver';
+import { Document, Packer, Paragraph} from "docx";
 import "./sidebar.css";
+
+import { jsPDF } from "jspdf";
+
 
 import { assets } from "../assets/assets.jsx";
 import Help from "./help.jsx";
 import Settings from "./settings.jsx";
+import Article from "../Article.jsx";
 
 const Sidebar = ({ darkness, setDarkness }) => {
     const [extended, setExtended] = useState(false);
     const [helpVisible, setHelpVisible] = useState(false);
     const [settingsVisible, setSettingsVisible] = useState(false);
+
     const [showAnalysis, setShowAnalysis] = useState(false);
-    // const [isDark, setIsDark] = useState(false);
+
+    const [showExport, setShowExport] = useState(false);
+
     const toggleHelpPopup = () => setHelpVisible((prev) => !prev);
     const toggleSettingsPopup = () => setSettingsVisible((prev) => !prev);
 
@@ -18,13 +27,62 @@ const Sidebar = ({ darkness, setDarkness }) => {
     const toggleExtended = () => {
         setExtended(prev=> !prev);
         if (extended) {
-            setShowAnalysis(false);
+            setShowExport(false);
         }
     }
 
-    const toggleAnalysis = () => {
-        setShowAnalysis(prev=> !prev);
+    const toggleExport = () => {
+        setShowExport(prev=> !prev);
     }
+
+    const exportToPdf = () => {
+        const doc = new jsPDF();
+
+        // Add a title
+        doc.setFontSize(18);
+        doc.text("Article Links", 10, 10);
+
+        // Add articles to the PDF
+        articles.forEach((article, index) => {
+            const y = 20 + index * 10; // Adjust spacing between lines
+            doc.setFontSize(12);
+            doc.text(`${article.title}: ${article.link}`, 10, y);
+        });
+
+        // Save the PDF
+        doc.save("ArticlesLinks.pdf");
+        console.log("PDF file generated and downloaded.");
+    };
+
+    const exportToDocx = () => {
+        console.log("Generating DOCX file...");
+
+
+        const paragraphs = articles.map(
+            (article) =>
+                new Paragraph({
+                    text: `${article.title}: ${article.link}`,
+                })
+        );
+
+        const doc = new Document({
+            sections: [
+                { children: paragraphs }
+            ]
+        });
+        // doc.addSection({ children: paragraphs });
+
+        Packer.toBlob(doc)
+            .then((blob) => {
+                saveAs(blob, "ArticlesLinks.docx");
+                console.log("DOCX file generated and downloaded.");
+            })
+            .catch((error) => {
+                console.error("Error generating DOCX file:", error);
+                alert("Failed to generate DOCX file. Please try again.");
+            });
+    };
+
     return (
         <div className="sidebar" data-theme = {darkness ? "dark" : "light"}>
             <div className="top">
@@ -36,16 +94,21 @@ const Sidebar = ({ darkness, setDarkness }) => {
                     </div>
                     : null}
                     {extended
-                        ? <div className="analysis"
-                        onClick={toggleAnalysis}>
-                            <img src={assets.analysis_icon} alt=""/>
-                            <p>Analysis</p>
+                        ? <div className="export"
+                        onClick={toggleExport}>
+                            <img src={assets.export_icon} alt=""/>
+                            <p>Export</p>
                         </div>
                         : null}
-                {extended && showAnalysis &&(
-                    <div className="analysis">
-                        {["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"].map(option => (
-                            <button key={option} className={"analysisOptions"}>
+                {extended && showExport &&(
+                    <div className="export">
+                        {["docs", "pdf"].map(option => (
+                            <button key={option}
+                                    className={"exportOptions"}
+                                    onClick={
+                                option === "docs"
+                                        ? exportToDocx : exportToPdf}
+                                >
                                 {option}
                             </button>
                         ))}

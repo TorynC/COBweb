@@ -36,7 +36,7 @@
 }
 
 
-.sidebar .analysis{
+.sidebar .export{
     margin-top: 10px;
     display: flex;
     align-items: center;
@@ -48,11 +48,11 @@
     cursor: pointer;
 }
 
-.sidebar .analysis:hover{
+.sidebar .export:hover{
     background-color: #e6eaf1;
 }
 
-.sidebar .analysisOptions{
+.sidebar .exportOptions{
     padding: 10px 15px;
     display: flex;
     align-items: center;
@@ -68,7 +68,7 @@
     transition: all 0.2s ease-in-out;
 }
 
-.sidebar .analysisOptions:hover{
+.sidebar .exportOptions:hover{
     background-color: #e6eaf1;
 }
 
