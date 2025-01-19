@@ -6,7 +6,7 @@ import {
     forceY,
     forceCollide
 } from 'd3-force';
-import React, {useCallback, useContext, useMemo, useRef} from 'react';
+import React, {useCallback, useContext, useMemo, useRef, useEffect} from 'react';
 import {
     ReactFlow,
     ReactFlowProvider,
@@ -16,29 +16,18 @@ import {
     useReactFlow,
     useNodesInitialized,
     Controls,
-    Background
+    Background,
+    useStoreApi
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import ArticleNode from "./ArticleNode.jsx";
-import Article from "./Article.jsx";
-import {Context} from "./context/Context.jsx";
+import ArticleNode from "../ArticleNode.jsx";
+import Article from "../Article.jsx";
+import {Context} from "../context/Context.jsx";
 
-const initialNodes = [
-    {
-        id: '1',
-        type: 'article',
-        position: { x: 0, y: 0 },
-        data: { value: root },
-    },
-
-    {
-        id: '2',
-        type: 'article',
-        position: { x: 0, y: 0 },
-        data: { value: new Article("zz", "zz", "zzz") },
-    }
-];
+var firstMade = false;
+var localNodes = 0;
+const initialNodes = [];
 
 const nodeTypes = { article: ArticleNode };
 
@@ -142,12 +131,53 @@ const useLayoutedElements = () => {
     }, [initialized, dragEvents, getNodes, getEdges, setNodes, fitView]);
 };
 
-const LayoutFlow = () => {
-    const {root} = useContext(Context);
-    const [nodes, , onNodesChange] = useNodesState(initialNodes);
+const LayoutFlow = (props) => {
+    const {root, newNode, setNewNode, lastNode} = useContext(Context);
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const { getEdges, getNodes, deleteElements } = useReactFlow();
     const [edges, , onEdgesChange] = useEdgesState(initialEdges);
     const [initialized, { toggle, isRunning }, dragEvents] =
         useLayoutedElements();
+
+    const store = useStoreApi();
+    const { zoomIn, zoomOut, setCenter } = useReactFlow();
+
+    let xpos = 0;
+    let ypos = 0;
+
+        const { nodeLookup } = store.getState();
+        const nodesSpot = Array.from(nodeLookup).map(([, node]) => node);
+
+        if (nodesSpot.length > 0) {
+            const node = nodesSpot[nodesSpot.length - 1];
+
+            xpos = node.position.x;
+            ypos = node.position.y;
+        }
+
+    if (!firstMade) {
+        var nodeMake = {
+            id: "1",
+            type: 'article',
+            data: { value: root },
+            position: { x: 500, y: 500 },
+        }
+        setNodes((prevNodes) => prevNodes.concat(nodeMake));
+        localNodes ++;
+        firstMade = true;
+    }
+
+    console.log(newNode, localNodes);
+    if (newNode >= localNodes) {
+        var nodeMake = {
+            id: (localNodes + 1) + "",
+                type: 'article',
+                data: { value: root },
+            position: { x: xpos, y: ypos }
+        }
+        setNodes((prevNodes) => prevNodes.concat(nodeMake));
+        localNodes ++;
+    }
 
     return (
         <div style={{width: '80vw', height: '80vh'}}>
