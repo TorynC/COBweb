@@ -37,10 +37,10 @@ const Main = ({ darkness }) => {
                 </div>
                 : <div className="button-bottom">
                     <div onClick={() => onSent(1)} className="more">
-                        <p> More from this topic</p>
+                        <p> More from {root.title}</p>
                     </div>
                     <div onClick={() => onSent(2)} className="new">
-                        <p><span>{root.adjacent.trim("\"")}</span></p>
+                        <p><span>{root.adjacent}</span></p>
                     </div>
                 </div>}
         </div>

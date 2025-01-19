@@ -26,8 +26,8 @@
     gap: 10px;
     padding: 10px 15px;
     border-radius: 50px;
-    font-size: inherit;
-    color: inherit;
+    font-size: 20px;
+    color: black;
     cursor: pointer;
 }
 
@@ -43,8 +43,8 @@
     gap: 10px;
     padding: 10px 15px;
     border-radius: 50px;
-    font-size: inherit;
-    color: inherit;
+    font-size: 20px;
+    color: black;
     cursor: pointer;
 }
 
@@ -61,10 +61,10 @@
     border-radius: 50px;
     flex-direction: column;
     background-color: #f8f9f6;
-    color: inherit;
+    color: black;
     cursor: pointer;
     text-align: center;
-    font-size: inherit;
+    font-size: 15px;
     transition: all 0.2s ease-in-out;
 }
 
@@ -78,6 +78,7 @@
 }
 
 .sidebar .bottom-item{
-    padding-right: 10px;
+    padding-right: 16px;
+    align-items: center;
     cursor: pointer;
 }

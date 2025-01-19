@@ -209,7 +209,7 @@ const LayoutFlow = (props) => {
     }
 
     return (
-        <div style={{width: '80vw', height: '80vh'}}>
+        <div style={{width: '80vw', height: '60vh'}}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
