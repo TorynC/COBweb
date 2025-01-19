@@ -16,6 +16,8 @@ const ContextProvider = (props) => {
     const [adjacent, setAdjacent] = useState("");
     const [newNode, setNewNode] = useState(0);
     const [nodes, setNodes] = useState(0);
+    const [oldId, setOldId] = useState(null);
+    const [error, setError] = useState(false);
 
     const onSent = async (type) => {
 
@@ -29,11 +31,14 @@ const ContextProvider = (props) => {
                 ". That prompt will contain some relevant topic or issue, or a link to an article. If the prompt" +
                 " is a topic, you must return your output in the following output exactly. Make sure" +
                 "this is a real article link by visiting it and ensuring it is not a 404 error. :\n" +
-                "UP TO FIVE WORDS SUMMARIZING THE TOPIC, A LINK TO AN ARTICLE RELEVANT TO THE TOPIC," +
+                "UP TO FIVE WORDS SUMMARIZING THE TOPIC, A HYPERLINK TO AN ARTICLE RELEVANT TO THE TOPIC," +
                 " UP TO FIVE WORDS SUMMARIZING AN ADJACENT BUT STILL DISTINCT TOPIC\n" +
                 "\"If you can not find any adjacent article at all DO NOT RETURN \"No Link \", or " +
                 "\"not found\" instead, return this output exactly:\n" +
                 "ERROR\\n" +
+                "For example if the input is Electric vehicles a potential output could be \"" +
+                "Electric vehicles, https://www.cnn.com/interactive/2019/08/business/electric-cars-audi-volkswagen-tesla/," +
+                "Climate change\"" +
                 "If the user inputs a link to an article return the following output exactly:\n" +
                 "UP TO FIVE WORDS SUMMARIZING THE TOPIC OF THE ARTICLE, THE LINK TO THE ARTICLE, " +
                 "UP TO FIVE WORDS SUMMARIZING AN ADJACENT BUT STILL DISTINCT TOPIC\n" +
@@ -45,7 +50,7 @@ const ContextProvider = (props) => {
                 ". That prompt will contain some relevant topic or issue. Make sure" +
                 "this is a real article link by visiting it and ensuring it is not a 404 error. You must return your output in the following" +
                 " output exactly.:\n" +
-                "THE ORIGINAL PROMPT, A LINK TO AN ARTICLE RELATED TO THE TOPIC BUT NOT NECESSARILY THE SAME TOPIC OR SOURCE," +
+                "THE ORIGINAL PROMPT, A HYPERLINK TO AN ARTICLE RELATED TO THE TOPIC BUT NOT NECESSARILY THE SAME TOPIC OR SOURCE," +
                 " UP TO FIVE WORDS SUMMARIZING AN ADJACENT BUT STILL DISTINCT TOPIC\n" +
                 "For example if the input is Electric vehicles a potential output could be \"" +
                 "Electric vehicles, https://www.cnn.com/interactive/2019/08/business/electric-cars-audi-volkswagen-tesla/," +
@@ -59,7 +64,7 @@ const ContextProvider = (props) => {
                 ". Make sure" +
                 "this is a real article link by visiting it and ensuring it is not a 404 error. That prompt will contain some relevant topic or issue. You must return your output in the following" +
                 " output. :\n" +
-                "THE ORIGINAL PROMPT, A LINK TO AN ARTICLE RELATED TO THE TOPIC BUT NOT NECESSARILY THE SAME TOPIC OR SOURCE," +
+                "THE ORIGINAL PROMPT, A HYPERLINK TO AN ARTICLE RELATED TO THE TOPIC BUT NOT NECESSARILY THE SAME TOPIC OR SOURCE," +
                 " UP TO FIVE WORDS SUMMARIZING AN ADJACENT BUT STILL DISTINCT TOPIC\n" +
                 "For example if the input is Electric vehicles a potential output could be \"" +
                 "Electric vehicles, https://www.cnn.com/interactive/2019/08/business/electric-cars-audi-volkswagen-tesla/," +
@@ -80,12 +85,19 @@ const ContextProvider = (props) => {
                 setInput("Complete");
                 setTopic(topic);
                 setAdjacent(adjacent);
-                setRoot(new Article(topic, link, 10, adjacent));
+                if (root) {
+                    setOldId(root.id);
+                }
                 setNodes(nodes + 1);
+                setRoot(new Article(topic, link, 10, adjacent, nodes + 1));
                 if (type != 0){
                     setNewNode(newNode + 1);
                 }
+            } else{
+                setError(true);
             }
+        } else {
+            setError(true);
         }
         setLoading(false);
     }
@@ -105,6 +117,10 @@ const ContextProvider = (props) => {
         setNewNode,
         nodes,
         setNodes,
+        oldId,
+        setOldId,
+        error,
+        setError
     }
 
     return (

@@ -6,7 +6,7 @@ import {
     forceY,
     forceCollide
 } from 'd3-force';
-import React, {useCallback, useContext, useMemo, useRef, useEffect} from 'react';
+import React, {useCallback, useContext, useMemo, useRef, useEffect, useState} from 'react';
 import {
     ReactFlow,
     ReactFlowProvider,
@@ -17,7 +17,10 @@ import {
     useNodesInitialized,
     Controls,
     Background,
-    useStoreApi
+    useStoreApi,
+    Handle,
+    useUpdateNodeInternals,
+    addEdge
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -132,27 +135,47 @@ const useLayoutedElements = () => {
 };
 
 const LayoutFlow = (props) => {
-    const {root, newNode, setNewNode, lastNode} = useContext(Context);
+    const {root, newNode, setNewNode, lastNode, oldId} = useContext(Context);
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const { getEdges, getNodes, deleteElements } = useReactFlow();
-    const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
     const [initialized, { toggle, isRunning }, dragEvents] =
         useLayoutedElements();
+
+    const onConnect = useCallback(
+        (edgeMake) => {
+            setEdges((oldEdges) => addEdge(edgeMake, oldEdges));
+        },
+        [setEdges],
+    );
+
+    const updateNodeInternals = useUpdateNodeInternals();
+    const [handleCount, setHandleCount] = useState(0);
+    let id = "";
+    const addHandleCount = useCallback(() => {
+        setHandleCount(handleCount + 1);
+        updateNodeInternals(id);
+    }, [id, updateNodeInternals]);
 
     const store = useStoreApi();
     const { zoomIn, zoomOut, setCenter } = useReactFlow();
 
     let xpos = 0;
     let ypos = 0;
+    let oldNode = null;
 
         const { nodeLookup } = store.getState();
         const nodesSpot = Array.from(nodeLookup).map(([, node]) => node);
+        if (nodesSpot.length > 0 && oldId) {
+            for (let i = 0; i < nodesSpot.length; i++) {
+                if (nodesSpot[i].data.value.id == oldId){
+                    oldNode = nodesSpot[i];
+                }
+            }
 
-        if (nodesSpot.length > 0) {
-            const node = nodesSpot[nodesSpot.length - 1];
+            xpos = oldNode.position.x;
+            ypos = oldNode.position.y;
 
-            xpos = node.position.x;
-            ypos = node.position.y;
         }
 
     if (!firstMade) {
@@ -167,16 +190,22 @@ const LayoutFlow = (props) => {
         firstMade = true;
     }
 
-    console.log(newNode, localNodes);
     if (newNode >= localNodes) {
         var nodeMake = {
             id: (localNodes + 1) + "",
-                type: 'article',
-                data: { value: root },
-            position: { x: xpos, y: ypos }
+            type: 'article',
+            data: {value: root},
+            position: {x: xpos, y: ypos}
         }
+
+        var edgeMake = {
+            source: oldNode.id,
+            target: nodeMake.id,
+        }
+        addHandleCount(oldNode.id);
         setNodes((prevNodes) => prevNodes.concat(nodeMake));
-        localNodes ++;
+        onConnect(edgeMake);
+        localNodes++;
     }
 
     return (
@@ -188,8 +217,8 @@ const LayoutFlow = (props) => {
                 onNodeDrag={dragEvents.drag}
                 onNodeDragStop={dragEvents.stop}
                 onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
                 nodeTypes={nodeTypes}
+                onConnect={onConnect}
             >
                 <Controls/>
                 <Background variant="dots" gap={12} size={1}/>
