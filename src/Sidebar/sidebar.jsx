@@ -11,17 +11,14 @@ import Help from "./help.jsx";
 import Settings from "./settings.jsx";
 import Article from "../Article.jsx";
 
-const Sidebar = () => {
+const Sidebar = ({ darkness, setDarkness }) => {
     const [extended, setExtended] = useState(false);
     const [helpVisible, setHelpVisible] = useState(false);
     const [settingsVisible, setSettingsVisible] = useState(false);
-    const [showExport, setShowExport] = useState(false);
 
-    const articles = [
-        new Article("Article 1", "https://example.com/article1", 5),
-        new Article("Article 2", "https://example.com/article2", 4),
-        new Article("Article 3", "https://example.com/article3", 3),
-    ];
+    const [showAnalysis, setShowAnalysis] = useState(false);
+
+    const [showExport, setShowExport] = useState(false);
 
     const toggleHelpPopup = () => setHelpVisible((prev) => !prev);
     const toggleSettingsPopup = () => setSettingsVisible((prev) => !prev);
@@ -87,7 +84,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="sidebar">
+        <div className="sidebar" data-theme = {darkness ? "dark" : "light"}>
             <div className="top">
                 <img onClick={toggleExtended} className="menu" src={assets.menu_icon} alt=""/>
                 {extended
@@ -135,7 +132,7 @@ const Sidebar = () => {
             {/* Render the Help popup */}
             <Help visible={helpVisible} onClose={toggleHelpPopup} />
             {/* Render the Settings popup */}
-            <Settings visible={settingsVisible} onClose={toggleSettingsPopup} />
+            <Settings visible={settingsVisible} darkness = {darkness} setDarkness={setDarkness} onClose={toggleSettingsPopup} />
         </div>
     )
 }

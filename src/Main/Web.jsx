@@ -6,7 +6,7 @@ import {
     forceY,
     forceCollide
 } from 'd3-force';
-import React, {useCallback, useContext, useMemo, useRef} from 'react';
+import React, {useCallback, useContext, useMemo, useRef, useEffect, useState} from 'react';
 import {
     ReactFlow,
     ReactFlowProvider,
@@ -16,29 +16,21 @@ import {
     useReactFlow,
     useNodesInitialized,
     Controls,
-    Background
+    Background,
+    useStoreApi,
+    Handle,
+    useUpdateNodeInternals,
+    addEdge
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
-import ArticleNode from "./ArticleNode.jsx";
-import Article from "./Article.jsx";
-import {Context} from "./context/Context.jsx";
+import ArticleNode from "../ArticleNode.jsx";
+import Article from "../Article.jsx";
+import {Context} from "../context/Context.jsx";
 
-const initialNodes = [
-    {
-        id: '1',
-        type: 'article',
-        position: { x: 0, y: 0 },
-        data: { value: root },
-    },
-
-    {
-        id: '2',
-        type: 'article',
-        position: { x: 0, y: 0 },
-        data: { value: new Article("zz", "zz", "zzz") },
-    }
-];
+var firstMade = false;
+var localNodes = 0;
+const initialNodes = [];
 
 const nodeTypes = { article: ArticleNode };
 
@@ -142,15 +134,82 @@ const useLayoutedElements = () => {
     }, [initialized, dragEvents, getNodes, getEdges, setNodes, fitView]);
 };
 
-const LayoutFlow = () => {
-    const {root} = useContext(Context);
-    const [nodes, , onNodesChange] = useNodesState(initialNodes);
-    const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+const LayoutFlow = (props) => {
+    const {root, newNode, setNewNode, lastNode, oldId} = useContext(Context);
+    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const { getEdges, getNodes, deleteElements } = useReactFlow();
+    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
     const [initialized, { toggle, isRunning }, dragEvents] =
         useLayoutedElements();
 
+    const onConnect = useCallback(
+        (edgeMake) => {
+            setEdges((oldEdges) => addEdge(edgeMake, oldEdges));
+        },
+        [setEdges],
+    );
+
+    const updateNodeInternals = useUpdateNodeInternals();
+    const [handleCount, setHandleCount] = useState(0);
+    let id = "";
+    const addHandleCount = useCallback(() => {
+        setHandleCount(handleCount + 1);
+        updateNodeInternals(id);
+    }, [id, updateNodeInternals]);
+
+    const store = useStoreApi();
+    const { zoomIn, zoomOut, setCenter } = useReactFlow();
+
+    let xpos = 0;
+    let ypos = 0;
+    let oldNode = null;
+
+        const { nodeLookup } = store.getState();
+        const nodesSpot = Array.from(nodeLookup).map(([, node]) => node);
+        if (nodesSpot.length > 0 && oldId) {
+            for (let i = 0; i < nodesSpot.length; i++) {
+                if (nodesSpot[i].data.value.id == oldId){
+                    oldNode = nodesSpot[i];
+                }
+            }
+
+            xpos = oldNode.position.x;
+            ypos = oldNode.position.y;
+
+        }
+
+    if (!firstMade) {
+        var nodeMake = {
+            id: "1",
+            type: 'article',
+            data: { value: root },
+            position: { x: 500, y: 500 },
+        }
+        setNodes((prevNodes) => prevNodes.concat(nodeMake));
+        localNodes ++;
+        firstMade = true;
+    }
+
+    if (newNode >= localNodes) {
+        var nodeMake = {
+            id: (localNodes + 1) + "",
+            type: 'article',
+            data: {value: root},
+            position: {x: xpos, y: ypos}
+        }
+
+        var edgeMake = {
+            source: oldNode.id,
+            target: nodeMake.id,
+        }
+        addHandleCount(oldNode.id);
+        setNodes((prevNodes) => prevNodes.concat(nodeMake));
+        onConnect(edgeMake);
+        localNodes++;
+    }
+
     return (
-        <div style={{width: '80vw', height: '80vh'}}>
+        <div style={{width: '80vw', height: '60vh'}}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -158,8 +217,8 @@ const LayoutFlow = () => {
                 onNodeDrag={dragEvents.drag}
                 onNodeDragStop={dragEvents.stop}
                 onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
                 nodeTypes={nodeTypes}
+                onConnect={onConnect}
             >
                 <Controls/>
                 <Background variant="dots" gap={12} size={1}/>

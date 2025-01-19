@@ -14,10 +14,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center it horizontally and vertically */
-    background-color: darkgreen;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
     padding: 20px;
     border-radius: 8px;
     width: 300px; /* Set a fixed width for the popup */
+    height: 175px;
     z-index: 1001; /* Ensure the popup is above the overlay */
 }
 

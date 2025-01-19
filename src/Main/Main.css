@@ -1,6 +1,8 @@
 .main{
     flex: 1;
     min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
     padding-bottom: 15vh;
     position: relative;
 }
@@ -9,9 +11,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 22px;
-    padding: 20px;
-    color: #585858;
+    font-size: 45px;
+    color: var(--primary-text-color);
+    padding: 25px;
 }
 
 .main-container{
@@ -22,7 +24,7 @@
 
 .web{
     font-size: 5000px;
-    color: #c4c7c5;
+    color: var(--primary-text-color);
     font-weight: 500;
     padding: 0px;
     justify-content: center;
@@ -47,9 +49,13 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    background-color: #f0f4f9;
+    background-color: var(--prompt-color);
     padding: 10px 20px;
     border-radius: 50px;
+    ::placeholder {
+        var(--primary-text-color);
+    }
+
 }
 
 .prompt img{
@@ -60,10 +66,62 @@
 .prompt input{
     flex: 1;
     background: transparent;
+    color: var(--primary-text-color);
     border: none;
     outline: none;
     padding: 8px;
     font-size: 18px;
+}
+
+.button-bottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 60px 0px;
+    padding-left: 20%;
+}
+
+.more{
+    font-size: 30px;
+    font-weight: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+    background-color: #f0f4f9;
+    color: black;
+    padding: 10px 50px;
+    border-radius: 50px;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+.new{
+    font-size: 30px;
+    font-weight: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+    background-color: #f0f4f9;
+    padding: 10px 50px;
+    border-radius: 50px 50px;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+.new span{
+    background: -webkit-linear-gradient(16deg, #1ce392, #4740bf);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.new:hover{
+    background-color: #e6eaf1;
+}
+
+.more:hover{
+    background-color: #e6eaf1;
 }
 
 .prompt div{
