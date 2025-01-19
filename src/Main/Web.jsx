@@ -37,10 +37,10 @@ const nodeTypes = { article: ArticleNode };
 const initialEdges = [];
 
 const simulation = forceSimulation()
-    .force('charge', forceManyBody().strength(-1000))
+    .force('charge', forceManyBody().strength(-800))
     .force('x', forceX().x(0).strength(0.08))
     .force('y', forceY().y(0).strength(0.08))
-    .force('collide', forceCollide(1))
+    .force('collide', forceCollide(2))
     .alphaTarget(0.05)
     .stop();
 
@@ -225,7 +225,6 @@ const LayoutFlow = (props) => {
                 nodeTypes={nodeTypes}
                 onConnect={onConnect}
             >
-                <Controls/>
                 <Background variant="dots" gap={12} size={1}/>
                 <Panel>
                     {initialized && (

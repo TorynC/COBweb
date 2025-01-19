@@ -14,7 +14,9 @@ function ArticleNode({ data, isConnectable }) {
     return (
         <div className="text-updater-node">
             <div onClick={() => setRoot(data.value)} className="circle">
-                <p className="text">{data.value.title}</p>
+                <div className="text">
+                    <p onClick={() => window.open(data.value.link, "_blank")}>{(data.value.title + "").replace("\"", "")}</p>
+                </div>
             </div>
             <Handle
                 position={Position.Bottom}

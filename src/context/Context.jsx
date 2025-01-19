@@ -76,9 +76,10 @@ const ContextProvider = (props) => {
 
         const response = await runChat(template);
         console.log(response);
-        if (response.trim() != "ERROR"){
+        if ((response + "").trim("\"").trim() != "ERROR" ||
+            (response + "").trim("\"").trim().split(5) != "Okay,"){
             const link = response.split(",")[1];
-            if (link.trim() != "ERROR") {
+            if ((link + "").trim("\"").trim() != "ERROR") {
                 const topic = response.split(",")[0];
                 const adjacent = response.split(",")[2];
                 setResultData(response);
