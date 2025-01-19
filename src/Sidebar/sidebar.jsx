@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { saveAs } from 'file-saver';
 import { Document, Packer, Paragraph} from "docx";
 import "./sidebar.css";
+import Topics from "./topics.jsx";
 
 import { jsPDF } from "jspdf";
 
@@ -86,13 +87,8 @@ const Sidebar = ({ darkness, setDarkness }) => {
     return (
         <div className="sidebar" data-theme = {darkness ? "dark" : "light"}>
             <div className="top">
-                <img onClick={toggleExtended} className="menu" src={assets.menu_icon} alt=""/>
-                {extended
-                    ? <div className="topics">
-                        <img src={assets.topics_icon} alt=""/>
-                        <p>Topics</p>
-                    </div>
-                    : null}
+                <img onClick={toggleExtended} className="menu" src={assets.menu_icon} alt="" />
+                {extended && <Topics />} {/* Add Topics here */}
                     {extended
                         ? <div className="export"
                         onClick={toggleExport}>
