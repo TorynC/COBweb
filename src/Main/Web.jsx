@@ -38,8 +38,8 @@ const initialEdges = [];
 
 const simulation = forceSimulation()
     .force('charge', forceManyBody().strength(-1000))
-    .force('x', forceX().x(0).strength(0.05))
-    .force('y', forceY().y(0).strength(0.05))
+    .force('x', forceX().x(0).strength(0.08))
+    .force('y', forceY().y(0).strength(0.08))
     .force('collide', forceCollide(1))
     .alphaTarget(0.05)
     .stop();
@@ -73,10 +73,6 @@ const useLayoutedElements = () => {
 
         simulation.nodes(nodes).force(
             'link',
-            forceLink(edges)
-                .id((d) => d.id)
-                .strength(0.05)
-                .distance(100),
         );
 
         // The tick function is called every animation frame while the simulation is
@@ -142,6 +138,15 @@ const LayoutFlow = (props) => {
     const [initialized, { toggle, isRunning }, dragEvents] =
         useLayoutedElements();
 
+    const [showDelayedText, setShowDelayedText] =
+        useState(false);
+
+    const handleClick = () => {
+        setTimeout(() => {
+            setShowDelayedText(true);
+        }, 1000);
+    };
+
     const onConnect = useCallback(
         (edgeMake) => {
             setEdges((oldEdges) => addEdge(edgeMake, oldEdges));
@@ -177,13 +182,12 @@ const LayoutFlow = (props) => {
             ypos = oldNode.position.y;
 
         }
-
     if (!firstMade) {
         var nodeMake = {
             id: "1",
             type: 'article',
             data: { value: root },
-            position: { x: 500, y: 500 },
+            position: { x: 300, y: 200 },
         }
         setNodes((prevNodes) => prevNodes.concat(nodeMake));
         localNodes ++;
@@ -195,7 +199,7 @@ const LayoutFlow = (props) => {
             id: (localNodes + 1) + "",
             type: 'article',
             data: {value: root},
-            position: {x: xpos, y: ypos}
+            position: {x: xpos + 80, y: ypos - 80}
         }
 
         var edgeMake = {
@@ -206,6 +210,7 @@ const LayoutFlow = (props) => {
         setNodes((prevNodes) => prevNodes.concat(nodeMake));
         onConnect(edgeMake);
         localNodes++;
+
     }
 
     return (
@@ -224,9 +229,9 @@ const LayoutFlow = (props) => {
                 <Background variant="dots" gap={12} size={1}/>
                 <Panel>
                     {initialized && (
-                        <button onClick={toggle}>
-                            {isRunning() ? 'Stop' : 'Start'} force simulation
-                        </button>
+                        <div className="physics">
+                            {toggle()}
+                        </div>
                     )}
                 </Panel>
             </ReactFlow>
