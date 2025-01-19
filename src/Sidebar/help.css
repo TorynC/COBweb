@@ -10,15 +10,15 @@
 }
 
 .help-popup {
-    position: fixed; /* Fixed positioning to center it on the screen */
+    position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Center it horizontally and vertically */
+    transform: translate(-50%, -50%);
     background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 600px; /* Set a fixed width for the popup */
-    z-index: 1001; /* Ensure the popup is above the overlay */
+    width: 600px;
+    z-index: 1001;
 }
 
 .help-popup-content {
