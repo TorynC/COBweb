@@ -8,7 +8,7 @@ import renderWeb from "./Web.jsx";
 
 const Main = () => {
 
-    const {onSent, setInput, input, root} = useContext(Context);
+    const {onSent, setInput, input, root, error, setError} = useContext(Context);
 
     //Create web
 

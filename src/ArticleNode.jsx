@@ -19,6 +19,11 @@ function ArticleNode({ data, isConnectable }) {
             <Handle
                 position={Position.Bottom}
                 isConnectable={isConnectable}
+                type="target"
+            />
+            <Handle
+                position={Position.Bottom}
+                isConnectable={isConnectable}
                 type="source"
             />
         </div>
