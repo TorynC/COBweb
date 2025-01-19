@@ -5,12 +5,12 @@ import { assets } from "../assets/assets.jsx";
 import Help from "./help.jsx";
 import Settings from "./settings.jsx";
 
-const Sidebar = () => {
+const Sidebar = ({ darkness, setDarkness }) => {
     const [extended, setExtended] = useState(false);
     const [helpVisible, setHelpVisible] = useState(false);
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [showAnalysis, setShowAnalysis] = useState(false);
-
+    // const [isDark, setIsDark] = useState(false);
     const toggleHelpPopup = () => setHelpVisible((prev) => !prev);
     const toggleSettingsPopup = () => setSettingsVisible((prev) => !prev);
 
@@ -26,7 +26,7 @@ const Sidebar = () => {
         setShowAnalysis(prev=> !prev);
     }
     return (
-        <div className="sidebar">
+        <div className="sidebar" data-theme = {darkness ? "dark" : "light"}>
             <div className="top">
                 <img onClick={toggleExtended} className="menu" src={assets.menu_icon} alt=""/>
                 {extended
@@ -69,7 +69,7 @@ const Sidebar = () => {
             {/* Render the Help popup */}
             <Help visible={helpVisible} onClose={toggleHelpPopup} />
             {/* Render the Settings popup */}
-            <Settings visible={settingsVisible} onClose={toggleSettingsPopup} />
+            <Settings visible={settingsVisible} darkness = {darkness} setDarkness={setDarkness} onClose={toggleSettingsPopup} />
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import "./Main.css";
 import { Context } from "../context/Context.jsx";
 import { assets } from "../assets/assets.jsx";
@@ -6,16 +6,14 @@ import Tree from "../Tree.jsx";
 import Article from "../Article.jsx";
 import renderWeb from "../Web.jsx";
 
-const Main = () => {
+const Main = ({ darkness }) => {
 
     const {onSent, recentPrompt, showResult, loading, resultData, setInput, input, root} = useContext(Context);
     const placeholder = "Web Goes Here\nWeb Goes Here\nWeb Goes Here\nWeb Goes Here\nWeb Goes Here";
-
     //Create web
 
-
     return (
-        <div className="main">
+        <div className="main" data-theme = {darkness ? "dark" : "light"}>
             <div className="nav">
                 <p> Research Web </p>
             </div>
