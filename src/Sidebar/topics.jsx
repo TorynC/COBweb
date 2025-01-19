@@ -9,7 +9,6 @@ const Topics = () => {
     const toggleTopics = () => {
         setShowTopics(prev => !prev); // Toggle topics visibility
     };
-
     return (
         <div className="topics-container"> {/* Updated container for alignment */}
             <div className="topics" onClick={toggleTopics}>
