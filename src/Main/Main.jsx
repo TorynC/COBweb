@@ -1,17 +1,18 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import "./Main.css";
 import { Context } from "../context/Context.jsx";
 import { assets } from "../assets/assets.jsx";
+import Tree from "../Tree.jsx";
+import Article from "../Article.jsx";
 import renderWeb from "./Web.jsx";
 
-const Main = () => {
-    const { onSent, setInput, input, root, error, setError } = useContext(Context);
+const Main = ({ darkness }) => {
 
-    // Function to close the popup
+    const {onSent, setInput, input, root, error, setError} = useContext(Context);
     const closePopup = () => setError(false);
 
     return (
-        <div className="main">
+        <div className="main" data-theme = {darkness ? "dark" : "light"}>
             <div className="nav">
                 <p>Research Web</p>
             </div>
