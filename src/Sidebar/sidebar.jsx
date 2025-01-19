@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./sidebar.css";
+import Topics from "./topics.jsx";
 
 import { assets } from "../assets/assets.jsx";
 import Help from "./help.jsx";
@@ -28,13 +29,8 @@ const Sidebar = () => {
     return (
         <div className="sidebar">
             <div className="top">
-                <img onClick={toggleExtended} className="menu" src={assets.menu_icon} alt=""/>
-                {extended
-                    ? <div className="topics">
-                        <img src={assets.topics_icon} alt=""/>
-                        <p>Topics</p>
-                    </div>
-                    : null}
+                <img onClick={toggleExtended} className="menu" src={assets.menu_icon} alt="" />
+                {extended && <Topics />} {/* Add Topics here */}
                     {extended
                         ? <div className="analysis"
                         onClick={toggleAnalysis}>
