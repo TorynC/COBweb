@@ -38,6 +38,7 @@ const Main = () => {
                         <p>More from this topic</p>
                     </div>
                     <div onClick={() => onSent(2)} className="new">
+                        <p><span>{root.adjacent.trim("''")}</span></p>
                     </div>
                 </div>
             )}
