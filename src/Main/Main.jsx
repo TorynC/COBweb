@@ -14,7 +14,7 @@ const Main = ({ darkness }) => {
     return (
         <div className="main" data-theme = {darkness ? "dark" : "light"}>
             <div className="nav">
-                <p>Research Web</p>
+                <img src={assets.logo} alt="React Image"/>
             </div>
             <div className="main-container">
                 {root != null ? renderWeb() : null}

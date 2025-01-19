@@ -113,12 +113,12 @@ const Sidebar = ({ darkness, setDarkness }) => {
             </div>
             <div className="bottom">
                 <div
-                    className="bottom-item analysis"
+                    className="export"
                     onClick={toggleHelpPopup}>
                     <img src={assets.question_icon} alt="" />
                     {extended ? <p>Help</p> : null}
                 </div>
-                <div className="bottom-item analysis"
+                <div className="export"
                      onClick={toggleSettingsPopup}>
                     <img src={assets.gear_icon} alt="" />
                     {extended ? <p>Settings</p> : null}

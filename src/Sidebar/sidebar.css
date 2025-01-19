@@ -78,7 +78,11 @@
 }
 
 .sidebar .bottom-item{
-    padding-right: 16px;
+    padding-right: 5px;
     align-items: center;
     cursor: pointer;
+}
+
+.sidebar .bottom-item:hover{
+    background-color: #e6eaf1;
 }
