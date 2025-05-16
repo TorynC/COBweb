@@ -15,8 +15,10 @@ const Help = ({ visible, onClose }) => {
                     <span> </span>
                     <ul>
                         <li>
-                            <p><strong>How do you access past topics?</strong></p>
-                            <p>Access topics using the "topics" button in the sidebar.</p>
+                            <p><strong>What is CobWeb?</strong></p>
+                            <p>Cobweb is a program that will allow you to enter random topics and retrieve links to
+                            articles as bubbles, clicking on those bubbles will redirect you to the article, there will
+                            be options to select similar topics or the same topic again.</p>
                         </li>
                         <li>
                             <p><strong>How do I change the settings?</strong></p>
