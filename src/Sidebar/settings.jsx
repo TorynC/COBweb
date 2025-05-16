@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./settings.css";
-import { Toggle } from "./components/Toggle";
+import { Toggle } from "./components/toggle.jsx";
 
 const Settings = ({ visible, onClose, darkness, setDarkness}) => {
     if (!visible) return null; // If not visible, return nothing
